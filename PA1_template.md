@@ -1,8 +1,10 @@
 ---
-title: "Report with Markdown - Assignment 1"
+title: "Reproducible Research: Peer Assessment 1"
 author: "Milana Smuk"
-date: "9 May 2017"
-output: html_document
+date: "11 May 2017"
+output: 
+  html_document:
+    keep_md: true
 ---
 
 ## R Markdown Assignment 1
@@ -28,6 +30,8 @@ Every part contains the R code needed to reproduce the results (numbers, plots, 
 ### 1. Loading and preprocessing the data 
 
  - Read in the data set:
+
+
 
 
 

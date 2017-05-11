@@ -1,8 +1,10 @@
 ---
-title: "Report with Markdown - Assignment 1"
+title: "Reproducible Research: Peer Assessment 1"
 author: "Milana Smuk"
-date: "9 May 2017"
-output: html_document
+date: "11 May 2017"
+output: 
+  html_document:
+    keep_md: true
 ---
 
 ## R Markdown Assignment 1
@@ -29,6 +31,9 @@ Every part contains the R code needed to reproduce the results (numbers, plots, 
 
  - Read in the data set:
 ```{r}
+if(!file.exists("activity.csv")){
+    unzip("activity.zip")
+}
 data <- read.csv("activity.csv", header = TRUE, sep = ',')
 ```
 
@@ -48,8 +53,9 @@ First we calculate total number of steps for each day, and then make a histogram
 ```{r}
 steps.total <- aggregate(data$steps, by = list(data$date), sum, na.rm = TRUE)
 names(steps.total) <- c("date", "total")
+```
 
-##Makes the histogram
+```{r histogram1}
 
 hist(steps.total$total, main = "Total number of steps taken each day", xlab = "Steps per day", col= "lightgreen", breaks = 15, ylim= c(0,20))
 ```
@@ -79,7 +85,7 @@ median.steps
 
 First we make a table with calculated values of average steps taken in every 5-minute interval, and then make a time series plot
 
-```{r}
+```{r time_series_plot}
 pattern <- aggregate( x = list(steps = data$steps), by = list(interval = data$interval),  mean, na.rm=TRUE)
 plot(x=pattern$interval, y=pattern$steps, type="l", xlab="5-minute interval", ylab = "Average number of steps", main = "Average number of steps per 5-minute interval", lwd=2)
 ```
@@ -122,7 +128,7 @@ sum(is.na(data_new$steps))
 
 We are repeating the process described above under Nr.2, with the difference of using newly created data set with replaced missing values in steps - column:
 
-```{r}
+```{r histogram_after}
 steps.total2 <- aggregate(data_new$steps, by = list(data_new$date), sum)
 names(steps.total2) <- c("date", "total")
 hist(steps.total2$total, main = "Total number of steps taken each day", xlab = "Steps per day", col= "lightgreen", breaks = 20, ylim= c(0,20))
@@ -156,7 +162,7 @@ data_new$daytype <- as.factor(data_new$daytype)
 
 - Makes time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
-```{r}
+```{r time_series_plot2}
 library(ggplot2)
 avg2 <- aggregate(steps ~ interval + daytype, data = data_new, mean)
 ggplot(avg2, aes(interval, steps, color = daytype)) + geom_line() + facet_grid(daytype ~ .) + 
